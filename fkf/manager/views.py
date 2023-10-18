@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 
-# Create your views here.
-def test(request):
-    return HttpResponse("success")
+def status(request):
+    return JsonResponse({"status": "success"}, status=200)

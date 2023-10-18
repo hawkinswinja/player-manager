@@ -7,11 +7,11 @@ class County(models.Model):
     """model to store county objects"""
 
     name = models.CharField(max_length=70, unique=True)
-    admin_name = models.CharField(max_length=70, null=False)
+    admin = models.CharField(max_length=70, null=False)
     password = models.CharField(max_length=30, null=False)
 
     def __str__(self):
-        return "{}, {}, {}".format(self.name, self.admin_name, self.password)
+        return "{}, {}, {}".format(self.name, self.admin, self.password)
 
 
 class Academy(models.Model):
@@ -19,12 +19,12 @@ class Academy(models.Model):
 
     county = models.ForeignKey(County, on_delete=models.CASCADE)
     name = models.CharField(max_length=70, unique=True, null=False)
-    admin_name = models.CharField(max_length=70, null=False)
+    admin = models.CharField(max_length=70, null=False)
     password = models.CharField(max_length=30, null=False)
 
     def __str__(self):
         return "{}, {}, {}, {}".format(
-            self.name, self.county, self.admin_name, self.password
+            self.name, self.county, self.admin, self.password
         )
 
 
