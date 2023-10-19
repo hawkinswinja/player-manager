@@ -81,3 +81,9 @@ class DB:
             return list(instances)
         else:
             return None
+
+    @staticmethod
+    def get_instance(class_str, filter_key, filter_val):
+        """Return a single instance"""
+        target_class = DB.classes_dict.get(class_str)
+        return target_class.objects.get(**{filter_key: filter_val})

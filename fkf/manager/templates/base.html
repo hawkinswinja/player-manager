@@ -1,25 +1,30 @@
-<!-- base.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FKF Local</title>
+    {% block head %}
+    {% load static %}
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <!---script src="https://code.jquery.com/jquery-3.2.1.min.js"></script -->
+    <title>football-local</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/admin.css' %}">
+    {% block morecss%}
+    {% endblock %}
+    {% endblock %}
 </head>
 <body>
-    <nav>
-        <!-- Your navigation content here -->
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Counties</a></li>
-            <li><a href="#">Academies</a></li>
-            <li><a href="#">Players</a></li>
-        </ul>
-    </nav>
-
-    <div class="content">
-        {% block content %}{% endblock %}
-    </div>
+    <header>
+        <div class="header-right">
+            <h1>{% block header1 %}FKF{% endblock %}</h1>
+        </div>
+        <div class="menu-icon">&#9776;</div>
+        {% if not status %}
+        <div class="header-left">
+            <a href="/home"><button class="exit">Exit</button></a>
+        </div>
+        {% endif %}
+        
+    </header>
+    {% block content %}
+    {% endblock %}
 </body>
 </html>

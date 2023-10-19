@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
+from .forms import CountyForm, AcademyForm, PlayerForm
 
 # from .models import County, Academy, Player
 from .util import DB
@@ -9,33 +10,64 @@ def status(request):
     return JsonResponse({"status": "success"}, status=200)
 
 
-def add_county(request):
+def login(request):
+    return render(request, "login.html", {"status": True})
+
+
+def counties(request):
+    form = CountyForm()
     if request.method == "POST":
-        name = request.POST["name"]
-        admin = request.POST["admin"]
-        password = request.POST["password"]
-        DB.create_county(name, admin, password)
-        return redirect("county_list")  # Redirect to the list of counties view
-    return render(request, "add_county.html")
+        form = CountyForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                form = CountyForm()
+            except Exception as e:
+                form.add_error(str(e))
+    elif request.GET:
+        name = request.GET["county"]
+        DB.delete_instance("County", "name", name)
+
+    counties = DB.all_instances("County")
+    return render(request, "counties.html", {"form": form, "counties": counties})
 
 
-def delete_county(request, county_id):
+def county(request, county):
+    form = AcademyForm()
     if request.method == "POST":
-        DB.delete_instance("County", "id", county_id)
-        return redirect("county_list")  # Redirect to the list of counties view
+        form = AcademyForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                form = AcademyForm()
+            except Exception as e:
+                form.add_error(str(e))
+    elif request.GET:
+        name = request.GET["academy"]
+        DB.delete_instance("Academy", "name", name)
+
+    county_instance = DB.get_instance("County", "name", county)
+    academies = DB.all_instances("Academy", "county", county_instance)
+    return render(
+        request, "county_academies.html", {"form": form, "academies": academies}
+    )
 
 
-def update_county(request, county_id):
+def academy(request, academy):
+    form = PlayerForm()
     if request.method == "POST":
-        admin = request.POST["admin"]
-        password = request.POST["password"]
-        DB.update_instance("County", "id", county_id, admin=admin, password=password)
-        return redirect("county_list")  # Redirect to the list of counties view
+        form = PlayerForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                form = PlayerForm()
+            except Exception as e:
+                form.add_error(None, str(e))
+    elif request.GET:
+        pid = request.GET["pid"]
+        DB.delete_instance("Player", "pid", pid)
 
-
-def get_county(request, name=None):
-    counties = DB.all_instances("County", "name", name)
-    return render(request, "county_admin.html", {"counties": counties})
-
-
-# Implement similar views for Academy and Player
+    academy_instance = DB.get_instance("Academy", "name", academy)
+    players = DB.all_instances("Player", "academy", academy_instance)
+    print(players)
+    return render(request, "academy.html", {"form": form, "players": players})

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block header1 %}FKF Academy{% endblock %}
+{% block content %}
+<section class="counties">
+    <h2>Academy Players</h2>
+    <ul>
+    {% for player in players %}
+        <h2>{{ player.name }}</h2>
+        <p>Academy: {{ player.academy }}</p>
+        <img src="{{ player.picture.url }}" alt="{{ player.name }} Image">
+    {% endfor %}
+    </ul>
+    <br>
+</section>
+<section class="candidates">
+    <fieldset>
+        <legend>Register Player</legend>
+        <form method="POST">
+            {% csrf_token %}
+            <!--input type="hidden" name="form_id" value="position"-->
+            {{ form.as_p }}
+            <button type="submit">Add Player</button>
+            {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Terminate Player Contract</legend>
+        <form>
+            <Label for name="pid">Player ID</Label>
+            <input type="text" name="pid" placeholder="Enter player id">
+            <br>
+            <button type="submit">Delete</button>
+        </form>
+    </fieldset>
+</section>
+{% endblock %}

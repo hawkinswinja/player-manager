@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block header1 %}FKF{% endblock %}
+{% block content %}
+<section class="counties">
+    <h2>Active Counties</h2>
+    <ul>
+      {% for county in counties %}
+        <li>{{ county.name }} &ensp;&ensp;<a href="{{ county.name }}">visit</a></li>
+      {% endfor %}
+    </ul>
+    <br>
+</section>
+<section class="candidates">
+    <fieldset>
+        <legend>Register County</legend>
+        <form method="POST">
+            {% csrf_token %}
+            <!--input type="hidden" name="form_id" value="position"-->
+            {{ form.as_p }}
+            <button type="submit">Add County</button>
+            {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Delete County</legend>
+        <form>
+            <Label for name="county">Name</Label>
+            <input type="text" name="county" placeholder="Name of county to delete">
+            <br>
+            <button type="submit">Delete</button>
+        </form>
+    </fieldset>
+</section>
+{% endblock %}

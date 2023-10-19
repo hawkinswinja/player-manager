@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block header1 %}FKF County{% endblock %}
+{% block left %}
+  <button class="exit">Exit</button>
+{% endblock %}
+{% block content %}
+<section class="counties">
+    <h2>Registered Academies</h2>
+    <ul>
+      {% for academy in academies %}
+        <li>{{ academy.name }} &ensp; {{ academy.county.name }} &ensp;<a href="/academies/{{ academy.name }}">visit academy</a></li>
+      {% endfor %}
+    </ul>
+    <br>
+</section>
+<section class="candidates">
+    <fieldset>
+        <legend>Register Academy</legend>
+        <form method="POST">
+            {% csrf_token %}
+            <!--input type="hidden" name="form_id" value="position"-->
+            {{ form.as_p }}
+
+            <button type="submit">Add Academy</button>
+            {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </form>
+    </fieldset>
+    <fieldset>
+        <legend>Delete Academy</legend>
+        <form>
+            <Label for name="academy">Academy</Label>
+            <input type="text" name="academy" placeholder="Name of academy to deregister">
+            <br>
+            <button type="submit">Delete</button>
+        </form>
+    </fieldset>
+</section>
+{% endblock %}
