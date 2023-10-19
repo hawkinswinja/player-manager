@@ -2,12 +2,21 @@
 {% block header1 %}FKF Academy{% endblock %}
 {% block content %}
 <section class="counties">
-    <h2>Academy Players</h2>
+    <h2>{{ academy }}&ensp;&ensp;Players</h2>
     <ul>
+        <h3>Image&emsp;&emsp;Name&emsp;&emsp;Player ID</h3>
     {% for player in players %}
-        <h2>{{ player.name }}</h2>
-        <p>Academy: {{ player.academy }}</p>
-        <img src="{{ player.picture.url }}" alt="{{ player.name }} Image">
+        <li>
+            {% if player.picture %}
+            <img src="{{ player.picture.url }}" alt="{{ player.name }} Image" width="50", height="50">
+            &emsp;
+            {% else %}
+            <img alt="player's image"> &ensp;
+            {% endif %}
+            {{ player.name }}&emsp;{{ player.pid|truncatechars:8 }}
+        </li>
+
+        
     {% endfor %}
     </ul>
     <br>
@@ -15,9 +24,8 @@
 <section class="candidates">
     <fieldset>
         <legend>Register Player</legend>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <!--input type="hidden" name="form_id" value="position"-->
             {{ form.as_p }}
             <button type="submit">Add Player</button>
             {% if form.errors %}

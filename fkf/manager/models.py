@@ -33,7 +33,10 @@ class Player(models.Model):
     academy = models.ForeignKey(Academy, on_delete=models.CASCADE)
     name = models.CharField(max_length=70)
     picture = models.ImageField(
-        validators=[FileExtensionValidator(["png", "jpg", "jpeg"])]
+        null=True,
+        blank=True,
+        validators=[FileExtensionValidator(["png", "jpg", "jpeg"])],
+        upload_to="images/",
     )
 
     def __str__(self):

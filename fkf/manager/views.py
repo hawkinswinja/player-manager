@@ -56,7 +56,7 @@ def county(request, county):
 def academy(request, academy):
     form = PlayerForm()
     if request.method == "POST":
-        form = PlayerForm(request.POST)
+        form = PlayerForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 form.save()
@@ -69,5 +69,6 @@ def academy(request, academy):
 
     academy_instance = DB.get_instance("Academy", "name", academy)
     players = DB.all_instances("Player", "academy", academy_instance)
-    print(players)
-    return render(request, "academy.html", {"form": form, "players": players})
+    return render(
+        request, "academy.html", {"form": form, "players": players, "academy": academy}
+    )
