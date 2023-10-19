@@ -2,9 +2,10 @@
 {% block header1 %}FKF Academy{% endblock %}
 {% block content %}
 <section class="counties">
-    <h2>{{ academy }}&ensp;&ensp;Players</h2>
+    <h2> Karibu {{ academy }}</h2>
     <ul>
-        <h3>Image&emsp;&emsp;Name&emsp;&emsp;Player ID</h3>
+        <h4>Player&emsp;&emsp;pid</h4>
+        <hr>
     {% for player in players %}
         <li>
             {% if player.picture %}
@@ -13,7 +14,9 @@
             {% else %}
             <img alt="player's image"> &ensp;
             {% endif %}
-            {{ player.name }}&emsp;{{ player.pid|truncatechars:8 }}
+            {{ player.pid }}
+            <br>
+            Name: {{ player.name }}
         </li>
 
         
