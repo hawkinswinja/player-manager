@@ -8,16 +8,11 @@
         <section>
             <div class="login">
                 <h3>Sign In</h3>
-                <form method="post" action='/login'>
-                    <!-- <br>
-                    <h4>User ID</h4>
-                    <input type="text" name="user-id">
-                    <h4>Password</h4>
-                    <input type="password" name="password">
-                    <br> -->
+                <form method="post">
+                    {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit">Log in</button>
-                  </form>
+                </form>
             </div>
         </section>
 {% endblock %}

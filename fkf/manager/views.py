@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect, resolve_url
-from .forms import CountyForm, AcademyForm, PlayerForm, AddUser
+from .forms import CountyForm, AcademyForm, PlayerForm
+from django.views.generic.detail import DetailView
 from .util import DB
 from django.http import JsonResponse
 
 
+def home(request):
+    return redirect("counties")
+
+
 def status(request):
     return JsonResponse({"status": "success"}, status=200)
-
-
-def login(request):
-    form = AddUser()
-    return render(request, "login.html", {"status": True, "form": AddUser()})
 
 
 def counties(request):

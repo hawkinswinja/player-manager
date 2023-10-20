@@ -6,7 +6,7 @@ from .models import County, Academy, Player, Admin
 class AddUser(UserCreationForm):
     class Meta:
         model = Admin
-        fields = ["name"]
+        fields = ["name", "role"]
 
 
 class CountyForm(forms.ModelForm):
