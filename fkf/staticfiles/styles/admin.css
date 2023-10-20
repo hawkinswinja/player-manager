@@ -47,7 +47,7 @@ header {
 }
 
 
-/* .exit {
+.exit {
     background-color: #fff;
     color: #333;
     border: none;
@@ -55,7 +55,7 @@ header {
     cursor: pointer;
     font-size: 16px;
     border-radius: 5px;
-} */
+}
 
 /* Style the main content section */
 .counties, .candidates {
@@ -78,8 +78,8 @@ ul {
     border: 1px solid #ccc;
     padding-top: 10px;
     padding-inline-start: 10px;
-    height: 100px;
-    max-height: 300px;
+    height: 600px;
+    max-height: 800px;
     /* Set a maximum height for overflow scrolling */
     overflow-y: auto;
     /* Enable vertical scrolling for overflow content */
@@ -124,7 +124,7 @@ button[type="submit"] {
 }
 
 
-#search {
+/* #search {
     background-color: #333;
     color: #fff;
     border: none;
@@ -132,7 +132,7 @@ button[type="submit"] {
     cursor: pointer;
     font-size: 14px;
     border-radius: 3px;
-}
+} */
 
 /* Responsive design for mobile view */
 @media screen and (max-width: 768px) {
@@ -146,10 +146,6 @@ button[type="submit"] {
         align-items: center;
         display: none;
         /* Center items vertically */
-    }
-
-    #results {
-        margin-top: 10px;
     }
 
     .exit {
@@ -175,14 +171,14 @@ button[type="submit"] {
 
     /* Divide the content into two columns */
     .counties {
-        width: 35%;
+        width: 50%;
         /* Half the width for Posts section */
         float: left;
         /* Float the Posts section to the left */
     }
 
     .candidates {
-        width: 50%;
+        width: 40%;
         /* Half the width for Candidates section */
         float: right;
         /* Float the Candidates section to the left */

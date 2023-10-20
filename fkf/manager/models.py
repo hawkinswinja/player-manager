@@ -1,18 +1,30 @@
 from django.db import models
 from uuid import uuid4
 from django.core.validators import FileExtensionValidator
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, name, role, password=None):
+    def create_user(
+        self, name, role, is_staff=False, is_superuser=False, password=None
+    ):
         """
         Creates and saves a User with the given data
         """
         if not name:
             raise ValueError("Users must have a name")
 
-        user = self.model(name=name, role=role)
+        user = self.model(
+            name=name,
+            role=role,
+            is_staff=is_staff,
+            is_active=True,
+            is_superuser=is_superuser,
+        )
 
         user.set_password(password)
         user.save(using=self._db)
@@ -22,37 +34,23 @@ class MyUserManager(BaseUserManager):
         """
         Creates and saves a superuser with the given data
         """
-        u = self.create_user(name=name, password=password, role=role)
+        u = self.create_user(name, role, True, True, password)
         u.is_admin = True
         u.save(using=self._db)
         return u
 
 
-class Admin(AbstractBaseUser):
-    name = models.CharField(max_length=70, unique=True, null=False)
-    # password = models.CharField(max_length=30, null=False)
-    role = models.CharField(max_length=30, default="admin")
+class Admin(AbstractBaseUser, PermissionsMixin):
+    name = models.CharField(max_length=70, unique=True)
+    role = models.CharField(max_length=30, null=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
 
     objects = MyUserManager()
     USERNAME_FIELD = "name"
+    ROLE_FIELD = "role"
     REQUIRED_FIELDS = ["role"]
-
-    @property
-    def is_staff(self):
-        return self.is_admin
-
-    def get_full_name(self):
-        # The user is identified by their email address
-        return self.name
-
-    def get_short_name(self):
-        # The user is identified by their email address
-        return self.name
-
-    def __unicode__(self):
-        return self.name
 
     def has_perm(self, perm, obj=None):
         return True

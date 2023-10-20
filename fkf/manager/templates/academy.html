@@ -3,9 +3,9 @@
 {% block content %}
 <section class="counties">
     <h2> Karibu {{ academy }}</h2>
-    <ul>
-        <h4>Player&emsp;&emsp;pid</h4>
+    <h4>Player&emsp;&emsp;pid</h4>
         <hr>
+    <ul>
     {% for player in players %}
         <li>
             {% if player.picture %}
@@ -18,8 +18,6 @@
             <br>
             Name: {{ player.name }}
         </li>
-
-        
     {% endfor %}
     </ul>
     <br>

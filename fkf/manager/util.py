@@ -13,9 +13,9 @@ class DB:
     @staticmethod
     def create_admin(name, role, password):
         """Add a new admin role instance to the db"""
-        user = Admin(role=role, name=name, password=password)
+        user = Admin.objects.create_user(role=role, name=name, password=password)
         user.save()
-        return f"success"
+        return "success"
 
     @staticmethod
     def create_county(name, admin, password):
