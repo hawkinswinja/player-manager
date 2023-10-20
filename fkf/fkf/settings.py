@@ -131,4 +131,4 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # CRISPY_TEMPLATE_PACK = "bootstrap4"
 AUTH_USER_MODEL = "manager.Admin"
-LOGIN_REDIRECT_URL = "counties"
+LOGIN_REDIRECT_URL = "home"

@@ -1,25 +1,46 @@
 from django.shortcuts import render, redirect, resolve_url
 from .forms import CountyForm, AcademyForm, PlayerForm
-from django.views.generic.detail import DetailView
+from django.contrib.auth import get_user_model, get_user
 from .util import DB
 from django.http import JsonResponse
 
 
 def home(request):
-    return redirect("/")
+    """
+    GET: returns a response with status 302
+    description: perform redirects based on user role
+    """
+    if request.path == "accounts/login":
+        return redirect("/")
+    user = get_user(request)
+    if user.role == "academy":
+        return redirect(f"/academies/{user.name}")
+    elif user.role == "county":
+        return redirect(f"/counties/{user.name}")
+    return redirect("/counties")
 
 
 def status(request):
+    """
+    GET: returns a response with status 200
+    description: check for server status
+    """
     return JsonResponse({"status": "success"}, status=200)
 
 
 def counties(request):
+    """
+    POST: creates a new county under management
+    GET: - returns the profile page with links to each county
+         - if args, delete the county passed in args
+    """
     form = CountyForm()
     if request.method == "POST":
         form = CountyForm(request.POST)
         if form.is_valid():
             try:
                 data = form.save(commit=False)
+                # create the user access for managing this resource
                 DB.create_admin(data.name, "county", data.password)
                 data.save()
                 form = CountyForm()
@@ -35,12 +56,19 @@ def counties(request):
 
 
 def county(request, county):
+    """
+    POST: creates a new academy for this county
+    GET: - returns the profile page for the county
+         - if args, delete the academy passed as arg
+    """
     form = AcademyForm()
     if request.method == "POST":
         form = AcademyForm(request.POST)
         if form.is_valid():
             try:
                 data = form.save(commit=False)
+
+                # create the user access for managing this resource
                 DB.create_admin(data.name, "academy", data.password)
                 data.save()
                 form = AcademyForm()
@@ -59,6 +87,11 @@ def county(request, county):
 
 
 def academy(request, academy):
+    """
+    POST: creates a new academy for this county
+    GET: - returns the profile page for the county by default
+      - if args, delete the academy player passed in arg
+    """
     form = PlayerForm()
     if request.method == "POST":
         form = PlayerForm(request.POST, request.FILES)
