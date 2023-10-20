@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 
 def home(request):
-    return redirect("counties")
+    return redirect("/")
 
 
 def status(request):
@@ -27,8 +27,8 @@ def counties(request):
                 form.add_error(str(e))
     elif request.GET:
         name = request.GET["county"]
-        DB.delete_instance("County", "name", name)
-        DB.delete_instance("Admin", "name", name)
+        DB.delete_instance("County", name=name)
+        DB.delete_instance("Admin", name=name, role="county")
 
     counties = DB.all_instances("County")
     return render(request, "counties.html", {"form": form, "counties": counties})
@@ -48,7 +48,8 @@ def county(request, county):
                 form.add_error(str(e))
     elif request.GET:
         name = request.GET["academy"]
-        DB.delete_instance("Academy", "name", name)
+        DB.delete_instance("Academy", name=name)
+        DB.delete_instance("Admin", name=name, role="academy")
 
     county_instance = DB.get_instance("County", "name", county)
     academies = DB.all_instances("Academy", "county", county_instance)

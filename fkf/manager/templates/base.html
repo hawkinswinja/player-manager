@@ -18,9 +18,9 @@
             <h1>{% block header1 %}FKF{% endblock %}</h1>
         </div>
         <div class="menu-icon">&#9776;</div>
-        {% if request.path != '/accounts/login/' %}
+        {% if request.path != '/' %}
         <div class="header-left">
-            <a href="/accounts/login"><button class="exit">Exit</button></a>
+            <a href="/logout"><button class="exit">Exit</button></a>
         </div>
         {% endif %}
     </header>

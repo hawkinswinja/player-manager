@@ -8,6 +8,7 @@ class DB:
         "County": County,
         "Academy": Academy,
         "Player": Player,
+        "Admin": Admin,
     }
 
     @staticmethod
@@ -61,17 +62,17 @@ class DB:
             return "Class not found."
 
     @staticmethod
-    def delete_instance(class_str, filter_key, filter_val):
+    def delete_instance(class_str, **kwargs):
         """Delete an existing instance from the db"""
         target_class = DB.classes_dict.get(class_str)
         if target_class:
             try:
-                instance = target_class.objects.get(**{filter_key: filter_val})
+                instance = target_class.objects.get(**kwargs)
                 instance.delete()
-                return f"{class_str} instance with {filter_key} = {filter_val} deleted successfully."
+                return f"success"
             except target_class.DoesNotExist:
                 return (
-                    f"{class_str} instance with {filter_key} = {filter_val} not found."
+                    f"{class_str} instance with filter {kwargs} not found."
                 )
         else:
             return "Class not found."
