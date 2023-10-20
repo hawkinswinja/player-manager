@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import County, Academy, Player
+
+# from django.contrib.auth.admin import UserAdmin
+from .models import County, Academy, Player, Admin
 
 admin.site.register(County)
 admin.site.register(Academy)
 admin.site.register(Player)
-# Register your models here.
+admin.site.register(Admin)

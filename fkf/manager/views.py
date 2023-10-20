@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, resolve_url
-from .forms import CountyForm, AcademyForm, PlayerForm
-
-# from .models import County, Academy, Player
+from .forms import CountyForm, AcademyForm, PlayerForm, AddUser
 from .util import DB
 from django.http import JsonResponse
 
@@ -11,7 +9,8 @@ def status(request):
 
 
 def login(request):
-    return render(request, "login.html", {"status": True})
+    form = AddUser()
+    return render(request, "login.html", {"status": True, "form": AddUser()})
 
 
 def counties(request):
@@ -20,13 +19,16 @@ def counties(request):
         form = CountyForm(request.POST)
         if form.is_valid():
             try:
-                form.save()
+                data = form.save(commit=False)
+                DB.create_admin(data.name, "county", data.password)
+                data.save()
                 form = CountyForm()
             except Exception as e:
                 form.add_error(str(e))
     elif request.GET:
         name = request.GET["county"]
         DB.delete_instance("County", "name", name)
+        DB.delete_instance("Admin", "name", name)
 
     counties = DB.all_instances("County")
     return render(request, "counties.html", {"form": form, "counties": counties})
@@ -38,7 +40,9 @@ def county(request, county):
         form = AcademyForm(request.POST)
         if form.is_valid():
             try:
-                form.save()
+                data = form.save(commit=False)
+                DB.create_admin(data.name, "academy", data.password)
+                data.save()
                 form = AcademyForm()
             except Exception as e:
                 form.add_error(str(e))

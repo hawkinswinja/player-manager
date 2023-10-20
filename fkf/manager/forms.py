@@ -1,17 +1,28 @@
 from django import forms
-from .models import County, Academy, Player
+from django.contrib.auth.forms import UserCreationForm
+from .models import County, Academy, Player, Admin
+
+
+class AddUser(UserCreationForm):
+    class Meta:
+        model = Admin
+        fields = ["name"]
 
 
 class CountyForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+
     class Meta:
         model = County
-        fields = ["name", "admin", "password"]
+        fields = ["name", "password"]
 
 
 class AcademyForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
         model = Academy
-        fields = ["county", "name", "admin", "password"]
+        fields = ["county", "name", "password"]
 
 
 class PlayerForm(forms.ModelForm):

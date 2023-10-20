@@ -1,4 +1,4 @@
-from .models import County, Academy, Player
+from .models import County, Academy, Player, Admin
 
 
 class DB:
@@ -9,6 +9,13 @@ class DB:
         "Academy": Academy,
         "Player": Player,
     }
+
+    @staticmethod
+    def create_admin(name, role, password):
+        """Add a new admin role instance to the db"""
+        user = Admin(role=role, name=name, password=password)
+        user.save()
+        return f"success"
 
     @staticmethod
     def create_county(name, admin, password):
