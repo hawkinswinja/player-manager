@@ -10,14 +10,14 @@ def home(request):
     GET: returns a response with status 302
     description: perform redirects based on user role
     """
-    if request.path == "accounts/login":
-        return redirect("/")
     user = get_user(request)
-    if user.role == "academy":
-        return redirect(f"/academies/{user.name}")
-    elif user.role == "county":
-        return redirect(f"/counties/{user.name}")
-    return redirect("/counties")
+    if user and user.name:
+        if user.role == "academy":
+            return redirect(f"/academies/{user.name}")
+        elif user.role == "county":
+            return redirect(f"/counties/{user.name}")
+        return redirect("/counties")
+    return redirect("/")
 
 
 def status(request):
