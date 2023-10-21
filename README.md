@@ -44,10 +44,10 @@
     waitress-serve --listen=*:8000 manager.wsgi:application
     ```
 >> alternatively if using docker, run the following command to build the image
-     ```
-     docker build -t image-name:tag .
-     docker run -p 8000:8000 image-name:tag
-     ```
+```
+docker build -t image-name:tag .
+docker run -p 8000:8000 image-name:tag
+```
 - access the url at `127.0.0.1:8000`
 
 ## Areas to improve and contribute
