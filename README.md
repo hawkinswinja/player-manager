@@ -32,7 +32,8 @@
     ```
 - Run the migrations and create the superuser
     ```
-    python manage.py migrate && python manage.py createsuperuser --name test --role test
+    python manage.py makemigrations && python manage.py migrate && \
+    python manage.py createsuperuser --name test --role test
     ```
 - launch the server using gunicorn (ubuntu)
     ```
