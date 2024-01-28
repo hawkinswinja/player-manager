@@ -1,9 +1,10 @@
 name: comment_job_status
 on:
   pull_request:
+  push:
 jobs:
   comment_pr:
-    runs_on: ubuntu-latest 
+    runs-on: ubuntu-latest 
     steps:
     - uses: NejcZdovc/comment-pr@v2
       with:
