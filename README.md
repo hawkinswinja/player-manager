@@ -1,5 +1,5 @@
 # Player-Manager
-> This project is an attempt to help manage and monitor the transition and growthof players in different academies nationally. The aim is to have a central management system for all football academies and their players. This is essential to help investors in planning and financing our local academies which will improve the general footballing in the country. Future implementations for the system include facial recognition, and player capabilities and market values throughout their journey.
+> This project is an attempt to help manage and monitor the transition and growth of players in different academies nationally. The aim is to have a central management system for all football academies and their players. This is essential to help investors in planning and financing our local academies which will improve the general footballing in the country. Future implementations for the system include facial recognition, and player capabilities and market values throughout their journey.
 
 
 ![acakoro](ss/Screenshot%20(110).png)
