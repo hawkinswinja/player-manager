@@ -1,0 +1,11 @@
+name: comment_job_status
+on:
+  pull_request:
+jobs:
+  comment_pr:
+    runs_on: ubuntu-latest 
+    steps:
+    - uses: NejcZdovc/comment-pr@v2
+      with:
+        message: "Your job status is ${{job.status}}"
+        github_token: ${{secrets.GITHUB_TOKEN}}
