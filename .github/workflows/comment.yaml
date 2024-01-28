@@ -5,11 +5,11 @@ on:
 jobs:
   comment:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+    # permissions:
+    #   pull-requests: write
     steps:
     - name: Add Comment
       uses: mshick/add-pr-comment@v2.8.1
       with:
         message: "Your job status is ${{job.status}}"
-        # repo-token: ${{secrets.GITHUB_TOKEN}}
+        repo-token: ${{secrets.GH_TOKEN}}
