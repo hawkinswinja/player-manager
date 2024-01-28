@@ -1,12 +1,12 @@
-name: comment_job_status
+name: get job status
 on:
   pull_request:
-  push:
 jobs:
-  comment_pr:
+  comment:
     runs-on: ubuntu-latest 
     steps:
-    - uses: NejcZdovc/comment-pr@v2
+    - name: Add Comment
+      uses: mshick/add-pr-comment@v2.8.1
       with:
         message: "Your job status is ${{job.status}}"
-        github_token: ${{secrets.GITHUB_TOKEN}}
+        repo-token: ${{secrets.GITHUB_TOKEN}}
