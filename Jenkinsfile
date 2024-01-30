@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        DISABLE_AUTH = 'true'
-        DB_ENGINE    = 'sqlite'
+        FKF_PASSWD = credentials('fkf-user')
+        FKF_USER = credentials('fkf-passwd')
     }
     stages {
         stage('Deploy') {
