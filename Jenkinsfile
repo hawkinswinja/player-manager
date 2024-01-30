@@ -7,11 +7,7 @@ pipeline {
     stages {
         stage('Deploy') {
             steps {
-                sh '''
-                cp fkf.conf ~/nginx-conf
-                ls ~/nginx-conf
-                echo $DISABLE_AUTH $DB_ENGINE
-                '''
+                sh 'make set_nginx'
             }
         }
     }
