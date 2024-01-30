@@ -27,6 +27,8 @@ pipeline {
                 sh 'make fkf_run'
                 sh 'make set_nginx'
             }
+	}
+	stage('Fix') {
             when { 
                 expression { env.CHOICE == 'tests' }
             }
