@@ -13,6 +13,6 @@ set_admin: fkf_run
 .PHONY: set_admin
 
 set_nginx: set_admin
-	@cp fkf.conf /home/ubuntu/nginx-conf
+	@cp fkf.conf /var/nginx-conf
 	@docker restart nginx
 .PHONY: set_nginx
