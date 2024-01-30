@@ -21,3 +21,4 @@ set_nginx:
 
 stop_fkf:
 	@docker rm -f fkf
+	@docker rmi hawkinswinja/fkf:1.0
