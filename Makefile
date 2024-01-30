@@ -6,6 +6,7 @@ crashed: fkf_run set_nginx
 
 fkf_run:
 	@docker run --name fkf -v fkf:/app \
+	--restart=unless-stopped \
 	--network nginx \
 	-e DJANGO_SUPERUSER_PASSWORD=$(FKF_PASSWD) \
 	-d hawkinswinja/fkf:1.1
