@@ -24,7 +24,7 @@ pipeline {
             }
             steps {
                 sh 'make stop_fkf'
-                sh 'make run_fkf'
+                sh 'make fkf_run'
                 sh 'make set_nginx'
             }
         }
