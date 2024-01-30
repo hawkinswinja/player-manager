@@ -2,6 +2,7 @@ FKF_PASSWD?=
 FKF_USER?=
 
 all: fkf_run set_admin set_nginx
+crashed: fkf_run set_nginx
 
 fkf_run:
 	@docker run --name fkf -v fkf:/app \
