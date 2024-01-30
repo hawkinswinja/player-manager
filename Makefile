@@ -8,7 +8,7 @@ fkf_run:
 	@docker run --name fkf -v fkf:/app \
 	--network nginx \
 	-e DJANGO_SUPERUSER_PASSWORD=$(FKF_PASSWD) \
-	-d hawkinswinja/fkf:1.0
+	-d hawkinswinja/fkf:1.1
 .PHONY: fkf_run
 
 set_admin:
