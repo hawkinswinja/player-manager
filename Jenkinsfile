@@ -14,11 +14,11 @@ pipeline {
                 '''
             }
         }
-        post {
-            always {
-                deleteDir() /* clean up our workspace */
-                echo 'One way or another, I have finished'
-            }
+    }
+    post {
+        always {
+            deleteDir() /* clean up our workspace */
+            echo 'One way or another, I have finished'
         }
     }
 }
