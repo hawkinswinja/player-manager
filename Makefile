@@ -9,7 +9,7 @@ fkf_run:
 	--restart=unless-stopped \
 	--network nginx \
 	-e DJANGO_SUPERUSER_PASSWORD=$(FKF_PASSWD) \
-	-d hawkinswinja/fkf:1.1
+	-d hawkinswinja/pm
 .PHONY: fkf_run
 
 set_admin:
@@ -23,4 +23,4 @@ set_nginx:
 
 stop_fkf:
 	@docker rm -f fkf
-	@docker rmi hawkinswinja/fkf:1.1
+	@docker rmi hawkinswinja/pm
