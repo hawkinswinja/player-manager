@@ -56,4 +56,4 @@ This project could really use contributions. Feel free to fork the repo and make
 - Facial recognition to identify player basedd on their images
 - Asynchronous database actions
 
-&copy;hawkinswinja2023
+&copy;hawkinswinja

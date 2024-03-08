@@ -103,7 +103,7 @@ def academy(request, academy):
                 form.add_error(None, str(e))
     elif request.GET:
         pid = request.GET["pid"]
-        DB.delete_instance("Player", "pid", pid)
+        DB.delete_instance("Player", pid=pid)
 
     academy_instance = DB.get_instance("Academy", "name", academy)
     players = DB.all_instances("Player", "academy", academy_instance)
