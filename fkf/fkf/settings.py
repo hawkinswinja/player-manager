@@ -24,11 +24,14 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = "django-insecure-1z!#mcd^z4(^b-4o7zk)@xq4-3eq3ur$q3m2-_odzzzjxlzag^"
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', default="django-insecure-1z!#mcd^z4(^b-4o7zk)@xq4-3eq3ur$q3m2-_odzzzjxlzag^")
+# default required for making migrations
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if not DEBUG:
+    ALLOWED_HOSTS += env('ALLOWED_HOSTS').split(',')
 
 
 # Application definition

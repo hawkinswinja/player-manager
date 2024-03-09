@@ -1,2 +1,2 @@
 fkf/db.sqlite3
-*.env
+fkf/.env

@@ -1,5 +1,6 @@
 FKF_PASSWD?=
 FKF_USER?=
+HOST?=
 
 all: fkf_run set_admin set_nginx
 crashed: fkf_run set_nginx
@@ -8,7 +9,8 @@ fkf_run:
 	@docker run --name fkf -v fkf:/app \
 	--restart=unless-stopped \
 	--network nginx \
-	-e DJANGO_SUPERUSER_PASSWORD=$(FKF_PASSWD) \
+	-e DJANGO_SUPERUSER_PASSWORD=$(FKF_PASSWD) -e SECRET_KEY=$(FKF_PASSWD)\
+	-e ALLOWED_HOSTS=$(HOST)
 	-d hawkinswinja/pm
 .PHONY: fkf_run
 
