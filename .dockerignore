@@ -1,2 +1,4 @@
 fkf/db.sqlite3
 fkf/.env
+fkf/staticfiles
+fkf/media/images/*
