@@ -7,8 +7,8 @@ services:
     - DEBUG=${DEBUG}
     - ALLOWED_HOSTS=${ALLOWED_HOSTS}
     - SECRET_KEY=${SECRET_KEY}
+    - DJANGO_SUPERUSER_PASSWORD=${FKF_PASSWORD}
     volumes:
-    - ./fkf/db.sqlite3:/app/db.sqlite3
     - media:/app/media
     - static:/app/staticfiles
     expose:

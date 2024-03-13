@@ -1,28 +1,32 @@
-FKF_PASSWD?=
-FKF_USER?=
-HOST?=
+FKF_PASSWORD?=
+FKF_ADMIN?=
+ALLOWED_HOSTS?=
+TAG?=
+SECRET_KEY?=
 
-all: fkf_run set_admin set_nginx
-crashed: fkf_run set_nginx
+new_deploy: compose_up set_admin
 
-fkf_run:
-	@docker run --name fkf -v fkf:/app \
-	--restart=unless-stopped \
-	--network nginx \
-	-e DJANGO_SUPERUSER_PASSWORD=$(FKF_PASSWD) -e SECRET_KEY=$(FKF_PASSWD)\
-	-e ALLOWED_HOSTS=$(HOST)
-	-d hawkinswinja/pm
+
+compose_up:
+	@TAG=$(TAG) ALLOWED_HOSTS=$(ALLOWED_HOSTS) DEBUG=$(DEBUG) SECRET_KEY=$(SECRET_KEY) FKF_PASSWORD=$(FKF_PASSWORD) docker compose up -d
 .PHONY: fkf_run
 
 set_admin:
-	@docker exec fkf python manage.py createsuperuser --name $(FKF_USER) --role admin --noinput
+	@docker exec pm-fkf-1 python manage.py createsuperuser --name $(FKF_ADMIN) --role admin --noinput
 .PHONY: set_admin
 
-set_nginx:
-	@cp fkf.conf /var/nginx-conf
-	@docker restart nginx
-.PHONY: set_nginx
+update:
+	@docker pull hawkinswinja/pm:$(TAG)
+	@docker compose build --pull fkf
+.PHONY: update
 
-stop_fkf:
-	@docker rm -f fkf
-	@docker rmi hawkinswinja/pm
+teardown:
+	@docker compose down
+.PHONY: teardown
+
+reset:
+	@docker compose down -v
+.PHONY: reset
+
+# example usage
+## TAG=latest DEBUG=0 SECRET_KEY=test ALLOWED_HOSTS=localhost FKF_ADMIN=admin FKF_PASSWORD=admin make new_deploy
