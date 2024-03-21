@@ -4,12 +4,12 @@ pipeline {
     }
 
     parameters {
-        choice(choices:['updates','new', 'scale-web'], description: 'fkf build Choice', name: 'CHOICE')
+        choice(choices:['updates','new'], description: 'fkf build Choice', name: 'CHOICE')
     }
 
     environment {
-        FKF_PASSWORD = credentials('fkf-user')
-        FKF_ADMIN = credentials('fkf-passwd')
+        FKF_AMIN = credentials('fkf-user')
+        FKF_PASS = credentials('fkf-passwd')
         ALLOWED_HOSTS = credentials('allowed-hosts')
     }
     stages {
@@ -25,34 +25,37 @@ pipeline {
             }
         }
         
+        stage('Push') {
+	        steps {
+                sh 'TAG=${env.BUILD_ID} make push'
+            }
+        }
+
         stage('Deploy') {
             when { 
-                expression { env.CHOICE == 'new' }
-            }
-	        steps {
-                sh 'make all'
-            }
-        }
-        stage('Patch') {
-            when { 
-                expression { env.CHOICE == 'updates' }
+                expression { env.CHOICE == 'deploy' }
             }
             steps {
-                sh 'make stop_fkf'
-                sh 'make fkf_run'
-                sh 'make set_nginx'
-            }
-	}
-	stage('update') {
-            when { 
-                expression { env.CHOICE == 'tests' }
-            }
-	    steps {
-                sh 'make crashed'
+                sh 'TAG=${env.BUILD_ID} DEBUG=0 SECRET_KEY=${FKF_PASS} ALLOWED_HOSTS=${ALLOWED_HOSTS} FKF_ADMIN=${FKF_ADMIN} FKF_PASSWORD=${FKF_PASS} make new_deploy'
             }
         }
-    }
+
+        stage('Update') {
+            when { 
+                    expression { env.CHOICE == 'update' }
+            }
+            steps {
+                    sh 'TAG=${env.BUILD_ID} DEBUG=0 SECRET_KEY=${FKF_PASS} ALLOWED_HOSTS=${ALLOWED_HOSTS} FKF_ADMIN=${FKF_ADMIN} FKF_PASSWORD=${FKF_PASS} make update'
+            }
+        }
+
     post {
+        failure {
+            echo 'notify job status as failure'
+        }
+        success {
+            echo 'notify job status as success'
+        }
         always {
             deleteDir() /* clean up our workspace */
             echo 'One way or another, I have finished'

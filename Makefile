@@ -1,22 +1,29 @@
-FKF_PASSWORD?=
-FKF_ADMIN?=
-ALLOWED_HOSTS?=
-TAG?=
-SECRET_KEY?=
+FKF_PASSWORD?=password
+FKF_ADMIN?=admin
+ALLOWED_HOSTS?=localhost
+TAG?=latest
+SECRET_KEY?=not_secret
+DOCKER_PASSWORD?=
+DOCKER_USERNAME?=
 
-new_deploy: compose_up set_admin
+new_deploy: teardown compose_up set_admin
 
 build:
-	@docker build -t hawkinswinja/pm:$(TAG) .
+	@docker build -t pm:latest .
+.PHONY: build
 
 test:
-	@docker run --rm hawkinswinja/pm:$(TAG) python manage.py tests
+	@docker run --rm pm:latest python manage.py test
+.PHONY: test
 
 push:
-	@docker push hawkinswinja/pm:$(TAG)
+	@docker login -u $(DOCKER_USERNAME) -p $(DOCKER_PASSWORD)
+	@docker tag pm:latest $(DOCKER_USERNAME)/pm:$(TAG)
+	@docker push  $(DOCKER_USERNAME)/pm:$(TAG)
+.PHONY: push
 
 compose_up:
-	@TAG=$(TAG) ALLOWED_HOSTS=$(ALLOWED_HOSTS) DEBUG=$(DEBUG) SECRET_KEY=$(SECRET_KEY) FKF_PASSWORD=$(FKF_PASSWORD) docker compose up -d
+	@TAG=$(TAG) ALLOWED_HOSTS=$(ALLOWED_HOSTS) DEBUG=0 SECRET_KEY=$(SECRET_KEY) FKF_PASSWORD=$(FKF_PASSWORD) docker compose up -d
 .PHONY: compose_up
 
 set_admin:
@@ -24,8 +31,7 @@ set_admin:
 .PHONY: set_admin
 
 update:
-	@docker pull hawkinswinja/pm:$(TAG)
-	@docker compose build --pull fkf
+	@TAG=$(TAG) ALLOWED_HOSTS=$(ALLOWED_HOSTS) DEBUG=0 SECRET_KEY=$(SECRET_KEY) FKF_PASSWORD=$(FKF_PASSWORD) docker compose build --pull fkf
 .PHONY: update
 
 teardown:
