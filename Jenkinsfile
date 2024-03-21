@@ -20,9 +20,9 @@ pipeline {
         }
         
         stage('Push') {
-		environment {
-			DOCKER = credentials('docker')
-		}
+            environment {
+                DOCKER = credentials('docker')
+            }
 	        steps {
                 sh 'TAG=${env.BUILD_ID} DOCKER_USERNAME=${DOCKER_USR} DOCKER_PASSWORD=${DOCKER_PSW} make push'
             }
@@ -32,9 +32,9 @@ pipeline {
             when { 
                 expression { env.CHOICE == 'deploy' }
             }
-	    environment {
-	        FKF_ADMIN = credentials('fkf-admin')
-	        ALLOWED_HOSTS = credentials('allowed-hosts')
+	        environment {
+                FKF_ADMIN = credentials('fkf-admin')
+                ALLOWED_HOSTS = credentials('allowed-hosts')
             }
             steps {
                 sh 'TAG=${env.BUILD_ID} DEBUG=0 SECRET_KEY=${FKF_ADMIN_PSW} ALLOWED_HOSTS=${ALLOWED_HOSTS} FKF_ADMIN=${FKF_ADMIN_USR} FKF_PASSWORD=${FKF_ADMIN_PSW} make new_deploy'
@@ -45,14 +45,15 @@ pipeline {
             when { 
                     expression { env.CHOICE == 'update' }
             }
-	    environment {
-	        FKF_ADMIN = credentials('fkf-admin')
-	        ALLOWED_HOSTS = credentials('allowed-hosts')
+            environment {
+                FKF_ADMIN = credentials('fkf-admin')
+                ALLOWED_HOSTS = credentials('allowed-hosts')
             }
             steps {
                     sh 'TAG=${env.BUILD_ID} DEBUG=0 SECRET_KEY=${FKF_ADMIN_PSW} ALLOWED_HOSTS=${ALLOWED_HOSTS} FKF_ADMIN=${FKF_ADMIN_USR} FKF_PASSWORD=${FKF_ADMIN_PSW} make update'
             }
         }
+    }
 
     post {
         failure {
