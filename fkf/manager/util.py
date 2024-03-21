@@ -19,20 +19,20 @@ class DB:
         return "success"
 
     @staticmethod
-    def create_county(name, admin, password):
+    def create_county(name, password):
         """Add a new County instance to the db"""
         county_instance = County.objects.create(
-            name=name, admin=admin, password=password
+            name=name, password=password
         )
         county_instance.save()
         return f"County instance {name} created successfully."
 
     @staticmethod
-    def create_academy(name, county_name, admin, password):
+    def create_academy(name, county_name, password):
         """Add a new Academy instance to the db"""
         county_instance = County.objects.get(name=county_name)
         academy_instance = Academy.objects.create(
-            name=name, county=county_instance, admin=admin, password=password
+            name=name, county=county_instance, password=password
         )
         academy_instance.save()
         return f"Academy instance {name} created successfully."
