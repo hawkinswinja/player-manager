@@ -1,5 +1,5 @@
 # Player-Manager
-> This project is an attempt to help manage and monitor the transition and growthof players in different academies nationally. The aim is to have a central management system for all football academies and their players. This is essential to help investors in planning and financing our local academies which will improve the general footballing in the country. Future implementations for the system include facial recognition, and player capabilities and market values throughout their journey.
+> This project is an attempt to help manage and monitor the transition and growth of players in different academies nationally. The aim is to have a central management system for all football academies and their players. This is essential to help investors in planning and financing our local academies which will improve the general footballing in the country. Future implementations for the system include facial recognition, and player capabilities and market values throughout their journey.
 
 
 ![acakoro](ss/Screenshot%20(110).png)
@@ -32,7 +32,8 @@
     ```
 - Run the migrations and create the superuser
     ```
-    python manage.py migrate && python manage.py createsuperuser --name test --role test
+    python manage.py makemigrations && python manage.py migrate && \
+    python manage.py createsuperuser --name test --role test
     ```
 - launch the server using gunicorn (ubuntu)
     ```
@@ -43,10 +44,10 @@
     waitress-serve --listen=*:8000 manager.wsgi:application
     ```
 >> alternatively if using docker, run the following command to build the image
-     ```
-     docker build -t image-name:tag .
-     docker run -p 8000:8000 image-name:tag
-     ```
+```
+docker build -t image-name:tag .
+docker run -p 8000:8000 image-name:tag
+```
 - access the url at `127.0.0.1:8000`
 
 ## Areas to improve and contribute
@@ -55,4 +56,4 @@ This project could really use contributions. Feel free to fork the repo and make
 - Facial recognition to identify player basedd on their images
 - Asynchronous database actions
 
-&copy;hawkinswinja2023
+&copy;hawkinswinja

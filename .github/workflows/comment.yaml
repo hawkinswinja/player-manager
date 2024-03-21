@@ -1,0 +1,15 @@
+name: get job status
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    # permissions:
+    #   pull-requests: write
+    steps:
+    - name: Add Comment
+      uses: mshick/add-pr-comment@v2.8.1
+      with:
+        message: "Your job status is ${{job.status}}"
+        repo-token: ${{secrets.GH_TOKEN}}
