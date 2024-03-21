@@ -1,20 +1,35 @@
 pipeline {
-    agent any
+    agent {
+        label 'pm-prod'
+    }
 
     parameters {
-        choice(choices:['updates','new', 'tests'], description: 'fkf build Choice', name: 'CHOICE')
+        choice(choices:['updates','new', 'scale-web'], description: 'fkf build Choice', name: 'CHOICE')
     }
 
     environment {
-        FKF_PASSWD = credentials('fkf-user')
-        FKF_USER = credentials('fkf-passwd')
+        FKF_PASSWORD = credentials('fkf-user')
+        FKF_ADMIN = credentials('fkf-passwd')
+        ALLOWED_HOSTS = credentials('allowed-hosts')
     }
     stages {
+        stage ('Build') {
+            steps {
+                sh 'make build'
+            }
+        }
+        
+        stage ('Test') {
+            steps {
+                sh 'make test'
+            }
+        }
+        
         stage('Deploy') {
             when { 
                 expression { env.CHOICE == 'new' }
             }
-	    steps {
+	        steps {
                 sh 'make all'
             }
         }
@@ -28,7 +43,7 @@ pipeline {
                 sh 'make set_nginx'
             }
 	}
-	stage('Fix') {
+	stage('update') {
             when { 
                 expression { env.CHOICE == 'tests' }
             }

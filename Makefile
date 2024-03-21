@@ -6,10 +6,18 @@ SECRET_KEY?=
 
 new_deploy: compose_up set_admin
 
+build:
+	@docker build -t hawkinswinja/pm:$(TAG) .
+
+test:
+	@docker run --rm hawkinswinja/pm:$(TAG) python manage.py tests
+
+push:
+	@docker push hawkinswinja/pm:$(TAG)
 
 compose_up:
 	@TAG=$(TAG) ALLOWED_HOSTS=$(ALLOWED_HOSTS) DEBUG=$(DEBUG) SECRET_KEY=$(SECRET_KEY) FKF_PASSWORD=$(FKF_PASSWORD) docker compose up -d
-.PHONY: fkf_run
+.PHONY: compose_up
 
 set_admin:
 	@docker exec pm-fkf-1 python manage.py createsuperuser --name $(FKF_ADMIN) --role admin --noinput
